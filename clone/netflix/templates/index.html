@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+ {% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>noeshoff</title>
+    <link rel="stylesheet" href="{%static 'base/assets/bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/fonts/fontawesome-all.min.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/fonts/font-awesome.min.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/fonts/ionicons.min.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/fonts/fontawesome5-overrides.min.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Contact-Form-Clean.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Footer-Basic.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Highlight-Phone.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Lightbox-Gallery.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Login-Form-Clean.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Navigation-with-Button.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Registration-Form-with-Photo.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/styles.css'%}">
+    <link rel="stylesheet" href="{%static 'base/assets/css/Team-Grid.css'%}">
+</head>
+
+<body style="background-color: #f0f0f0;">
+    <nav class="navbar navbar-light navbar-expand-md text-uppercase navigation-clean-button" style="background-color: #e50914;color: #ffffff;">
+        <div class="container"><a class="navbar-brand jello animated infinite" href="{% url 'index'%}" style="color: rgb(0,0,0);">soff</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div
+                class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item" role="presentation" data-bs-hover-animate="pulse"><a class="nav-link active" href="#" style="color: #ffffff;">First Item</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-bs-hover-animate="pulse" href="#" style="color: #ffffff;">Second Item</a></li>
+                    <li class="nav-item dropdown" data-bs-hover-animate="pulse" style="color: #ffffff;"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color: #ffffff;">Dropdown </a>
+                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" data-bs-hover-animate="pulse" href="#">First Item</a><a class="dropdown-item" role="presentation" data-bs-hover-animate="pulse" href="#">Second Item</a><a class="dropdown-item" role="presentation"
+                                data-bs-hover-animate="pulse" href="#">Third Item</a><a class="dropdown-item" role="presentation" href="#">Menu Item</a></div>
+                    </li>        {% if user.is_authenticated %}
+                </ul><span class="navbar-text actions" data-bs-hover-animate="pulse"> <a class="btn btn-light action-button" role="button" data-bs-hover-animate="pulse" href="{% url 'logout_user' %}" style="background-color: #b55f63;">LOGOUT  halo:{{user.get_username}}</a></span></div>
+            </div>                  
+        </nav>
+    </div>                       
+                        {% else %}
+                </ul><span class="navbar-text actions" data-bs-hover-animate="pulse"> <a class="btn btn-light action-button" role="button" data-bs-hover-animate="pulse" href="{% url 'log_in'%}" style="background-color: #b55f63;">log-in</a><a class="btn btn-light action-button" role="button" data-bs-hover-animate="pulse" href="{% url 'regsitor' %}" style="background-color: #b55f63;">Sign Up</a></span></div>
+        </div>
+    </nav>
+</div>
+    {% endif %}
+
+    {% block content %}
+    {% csrf_token %}
+
+
+    {% endblock %}
+
+
+
+
+
+    <div class="footer-basic" style="background-color: #f0f0f0;">
+        <footer>
+            <div class="social"><a href="#"><i class="icon ion-social-instagram" style="color: #eb3b60;"></i></a><a href="#"><i class="icon ion-social-snapchat" style="color: #ffc61e;"></i></a><a href="#"><i class="icon ion-social-twitter" style="color: rgb(46,142,238);"></i></a>
+                <a
+                    href="#"><i class="icon ion-social-facebook" style="color: rgb(46,142,238);"></i></a>
+            </div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Home</a></li>
+                <li class="list-inline-item"><a href="#">Services</a></li>
+                <li class="list-inline-item"><a href="#">About</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright" style="color: rgb(0,97,194);font-size: 18px;">SHOFF © 2022</p>
+        </footer>
+    </div>
+   
+    <script src="{%static 'base/assets/js/jquery.min.js'%}"></script>
+    <script src="{%static 'base/assets/bootstrap/js/bootstrap.min.js'%}"></script>
+    <script src="{%static 'base/assets/js/bs-init.js'%}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+</body>
+
+</html>

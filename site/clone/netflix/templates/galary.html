@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+<div class="photo-gallery" style="background-color: #f0f0f0;">
+    <div class="container">
+        <div class="intro"></div>
+        <div class="row photos">
+            {% for i in images %}
+            <div class="col-sm-6 col-md-4 col-lg-3 item"><a data-lightbox="photos"  ><img class="img-fluid" src="{%static 'base/assets/images/'%}"> ho</a></div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}

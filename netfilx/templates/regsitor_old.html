@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block content %}
+{% csrf_token %}
+
+<div class="login-clean" style="background-color: #f0f0f0;">
+    <form method="post">
+        {% csrf_token %}
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration"><i class="fas fa-user" data-bs-hover-animate="pulse" style="color: #fe4851;"></i></div>
+        <div class="form-group"><input class="form-control" type="email" name="email" required placeholder="Email" style="background-color: rgb(233,236,239);"></div>
+        <div class="form-group"><input class="form-control" type="text" name="username" required placeholder="Username" style="background-color: rgb(233,236,239);"></div>
+        <div class="form-group"><input class="form-control" type="text" name="name" required placeholder="name" style="background-color: rgb(233,236,239);"></div>
+
+        <div class="form-group"><input class="form-control" type="password" required name="password" placeholder="Password" style="background-color: rgb(233,236,239);"></div>
+        <div class="form-group"><input class="form-control" type="password" name="repassword" required placeholder="(retype)Password" style="background-color: rgb(233,236,239);"></div>
+
+        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: #238e30;">Sign Up</button></div>
+        <a class="already" href="{% url 'sing_in' %}" style="color: rgb(0,97,194);font-size: 16px;">already have an account? Login here.</a></form>
+</div>
+    {% endblock %}

@@ -10,26 +10,25 @@ from . models import ProfileImg
 # Create your views here.
 
 def por_text(request):
-    imgs = ProfileImg.objects.get(user_pic=request.user)
-    print(imgs.image,"hoq....")
     if request.method == 'POST':
         pic = request.FILES.get('avatar')
         im =ProfileImg.objects.create(image=pic, user_pic=request.user )
         im.save()
-    #     print('new pic')
-    return render(request, 'upfile.html',{'imgs':imgs,})
+        print('new pic')
+    return render(request, 'upfile.html',{})
 
 
 # 1 this page need to display all the images.
 # 2 add away to filter the images by catogery
 # 2  
 def index(request):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            users= User.objects.all()
+    if request.user.is_authenticated:
+        img = ProfileImg.objects.get(user_pic=request.user.id)
+        print(img)
 
 
-    return render(request ,'profile.html',{})
+
+    return render(request ,'index.html',{})
 
 
 # 1 create new user if email and username ont on db
@@ -43,13 +42,14 @@ def regsitor(request):
         pwd = request.POST['password']
         pwd2 = request.POST['repassword']
         if pwd == pwd2:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'username in user')
-                if User.objects.filter(email=email).exists():
+            if User.objects.filter(username=username).exists:
+                # messages.info(request, 'username in user')
+                if User.objects.filter(email=email).exists:
                     print('no email')
                     new_user = User.objects.create_user(username=username,last_name=l_name ,email=email, first_name=f_name ,password=pwd)
                     new_user.save()
-                    messages.info(request ,'user created sus')
+                    login(request,new_user)
+                    # messages.info(request ,'user created sus')
                     return redirect('index')
 
 
@@ -57,7 +57,7 @@ def regsitor(request):
         else:
             print('not')
 
-    return render(request, 'regsitor.html')
+    return render(request, 'regsitor_old.html')
 
 
 # 1 log in the user by email or password.

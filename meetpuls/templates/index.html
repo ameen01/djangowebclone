@@ -30,9 +30,9 @@
 </head>
 
 
-<nav class="navbar navbar-light navbar-expand-md navbar-fixed-top navigation-clean-button" style="height: 100px;">
+<nav class="navbar navbar-light  navbar-expand-md navbar-fixed-top navigation-clean-button" style="height: 100px;">
     <div class="container">
-        <div><a class="navbar-brand" href=""><span><img src="" style="height: 86px;">SHOFF</span> </a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
+        <div><a class="navbar-brand" href="{% url 'home' %}"><span><img src="{%static 'base/assets/img/Untitled-2.png'%}" style="height: 86px;">SHOFF</span> </a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
         <div
             class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav nav-right">
@@ -46,28 +46,35 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" href="faq.html">ABUOT</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="contact.html">CONTACT</a></li>
             </ul>
-            <!-- <p class="ml-auto navbar-text actions"><a class="login" href=""></a><img src="" style="height: 49px;"></p>
+
+
+
+            {% if user.is_authenticated %}
+            <p class="ml-auto navbar-text actions"></p> 
+
+            <ul class="nav navbar-nav">
+                <li class="nav-item" role="presentation"></li>
+                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><img src="{{s.image.url}}" style="height: 49px; width: 49px; border-radius: 50%;"> </a>
+                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="{% url 'user_profile' %}">Profile</a><a class="dropdown-item" role="presentation" href="">Order Services</a><a class="dropdown-item" role="presentation" href="{% url 'sing_out' %}">Log out</a></div>
+                </li>
+            </ul>
+            
+
         </div>
     </div>
-</nav> -->
-            <p class="ml-auto navbar-text actions"><a class="login" href="">Log In</a> <a class="btn btn-light action-button" role="button" href="">Sign Up</a></p>
-            <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Services </a>
-                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="services.html">Price Packages</a><a class="dropdown-item" role="presentation" href="#">Order Services</a><a class="dropdown-item" role="presentation" href="#">Custom Request</a></div>
-            </li>
+</nav>
+
+            {% else %}
+            <p class="ml-auto navbar-text actions"><a class="login" href="{% url 'singin' %}">Log In</a> <a class="btn btn-light action-button" role="button" href="{% url 'regsitor' %}">Sign Up</a></p>
+           
     </div>
     </div>
 </nav>
+{%endif%}
 {% block content %}
 
 
 {% endblock %}
-
-
-    <img src="{{pics.image.url}}">
-
-
-
-
 
 <div class="footer-basic" style="background-color: #f0f0f0;">
     <footer>

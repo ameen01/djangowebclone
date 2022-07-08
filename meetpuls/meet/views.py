@@ -2,8 +2,18 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout ,authenticate
 from django.contrib.auth.decorators import login_required
-from . models import ProfileImg
+from .models import ProfileImg
 from django.contrib import messages 
+from .forms import UserForm
+
+
+
+#test userform model
+def regas(request):
+    forms = UserForm()
+
+    return render(request, 'all.html',)
+
 
 
 # Create your views here.

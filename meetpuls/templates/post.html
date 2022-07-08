@@ -1,17 +1,22 @@
 {% extends "index.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-{% csrf_token %}
+<!-- /home/ameen/Desktop/porf/meetpuls/static/avatar.png -->
+<div class="login-clean2" style="background-color: #fcf8f8;">
+    <form method="post">
+        {% csrf_token %}
+        <h2>SING UP Form</h2>
+        <div class="illustration"><i class="fas fa-user" data-bs-hover-animate="pulse" style="color: #4882fe;"></i></div>
+        <div class="form-group" style="color: #000;"> {{forms.username|as_crispy_field}}</div>
 
-/home/ameen/Desktop/porf/meetpuls/static/avatar.png
+        <div class="form-group" style="color: #000;"> {{forms.first_name|as_crispy_field}}</div>
+        <div class="form-group" style="color: #000;"> {{forms.last_name|as_crispy_field}}</div>
+        <div  class="form-group" style="color: #000;"> {{forms.email|as_crispy_field}}</div>
+        <div class="form-group" style="color: #000;"> {{forms.password|as_crispy_field}}</div>
+        <div class="form-group" style="color: #000;"> {{forms.password2|as_crispy_field}}</div>
 
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card with stretched link</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
-    </div>
-  </div>
-
+        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: #e50914;">Log In</button></div><a class="forgot" href="" style="font-size: 14px;color: rgb(0,97,194);">Forgot your password?</a></form>
+</div>
 
 {% endblock %}
+{{forms.first_name|as_crispy_field}}

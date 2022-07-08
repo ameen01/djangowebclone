@@ -24,7 +24,7 @@ class UserForm(forms.Form):
 # reaset password
 class NewPassword(forms.Form):
     username = forms.CharField(max_length=100)
-
+    email = forms.EmailField(max_length=200, widget=forms.EmailInput(attrs={'placeholder':'Email',}))
     old_password = forms.CharField(max_length=200, widget=forms.PasswordInput)
     new_password = forms.CharField(max_length=200, widget=forms.PasswordInput)
     comf_password = forms.CharField(max_length=200, widget=forms.PasswordInput)

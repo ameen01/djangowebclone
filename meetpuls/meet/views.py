@@ -2,32 +2,90 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout ,authenticate
 from django.contrib.auth.decorators import login_required
-from .models import ProfileImg
+from .models import ProfileImg, Post
 from django.contrib import messages 
-from .forms import UserForm
+from .forms import UserForm, NewPassword
 
 
 
 #test userform model
 def regas(request):
-    forms = UserForm()
+    forms = UserForm
 
-    return render(request, 'all.html',)
+    return render(request, 'gelarey.html',)
+
+@login_required(login_url='log_in')
+def post(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            text = request.POST['text']
+            pic = request.FILES.get('file')
+            user = request.user
+            print(text, f'--------{user}---------',pic)
+            # now_post = Post.objects.create()
+
+
+    return render(request, 'po.html')
 
 
 
 # Create your views here.
 def home(request):
-    s= ProfileImg.objects.get(user=request.user)
-    print(s.image)
+    posts= Post.objects.all()
 
 
 
-    return render(request, 'index.html',{'s':s} )
+    return render(request, 'gelarey.html',{'posts':posts} )
+
+# edit the post
+def edid_post(request):
+    #find how to get the post id from the user
+    # and edite the the post
+    #chek if the time its save new time or old 
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            text = request.POST['text']
+            pic = request.FILES.get('file')
+            post_id = ''
+            new_post = Post.objects.get(user=request.user ,id='the post id')
+            new_post.image = pic
+            new_post.caption = text
+            # new_post.save()
+    return render(request, 'editpost.html')
 
 
 
 
+
+
+#channge the password
+#look how to use the models form
+def new_pwd(request):
+    forms = NewPassword()
+    if request.method == 'POST':
+        pwdform = NewPassword(request.POST)
+        print(pwdform)
+        if request.POST['new_password'] == request.POST['comf_password']:
+            if pwdform.is_valid():
+                user = User.objects.get(pwdform.username.clean)
+                user.set_password(pwdform.new_password.clean)
+                user.save()
+        #     else:
+        #         messages.info(request, 'user not exited')
+        #         return redirect(new_pwd)
+        # else:
+        #     messages.info(request , 'password not match')
+        #     return redirect(new_pwd)
+        # pwdform.username = request.POST['username']
+        # pwdform.email = request.POST['email']
+        # pwdform.new_password = request.POST['password']
+        # pwdform.comf_password = request.POST['password2']
+
+
+    return render(request ,'newpwd.html',{'forms':forms})
+
+
+#acatch it to edit user porofile
 def upfile(request):
     print('file')
     return render(request , 'upfil.html')
@@ -36,6 +94,7 @@ def upfile(request):
 
 
 
+#replace the form the model form filed for more scritey 
 
 def sign_up(request):
     if request.method == 'POST':
@@ -67,7 +126,7 @@ def sign_up(request):
         return redirect('regsitor')
     return render(request ,'regsitor_old.html')        
 
-
+#replace the form the model form filed for more scritey 
 def  log_in(request):
     if request.method == 'POST':
         username = request.POST['username']

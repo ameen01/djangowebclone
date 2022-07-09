@@ -7,6 +7,7 @@ import uuid
 # Create your models here.
 
 
+# User 
 #--------------------USER PORFILE --------------------------!
 # if user careate this filed will create automatic
 class ProfileImg(models.Model):
@@ -17,7 +18,7 @@ class ProfileImg(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username} ProfileImg'
+        return f'{self.user} ProfileImg'
         
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
@@ -38,6 +39,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     how_many_likes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.user
 
 
 class FamilyPost(models.Model):
@@ -60,7 +63,7 @@ class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
 
-#--------------------FLOWERS-----------------------------------!
+#--------------------FLOWERSV-----------------------------------!
 #  
 class FollowersCount(models.Model):
     follower = models.CharField(max_length=100)

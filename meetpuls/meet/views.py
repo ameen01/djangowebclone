@@ -38,7 +38,7 @@ def home(request):
     return render(request, 'gelarey.html',{'posts':posts} )
 
 # edit the post
-def edid_post(request):
+def edid_post(request,pots_uu):
     #find how to get the post id from the user
     # and edite the the post
     #chek if the time its save new time or old 
@@ -46,7 +46,7 @@ def edid_post(request):
         if request.method == 'POST':
             text = request.POST['text']
             pic = request.FILES.get('file')
-            post_id = ''
+            post_id = 'post_uu'
             new_post = Post.objects.get(user=request.user ,id='the post id')
             new_post.image = pic
             new_post.caption = text

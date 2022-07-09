@@ -2,6 +2,7 @@ from datetime import datetime
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from .models import Post ,ProfileImg
 
 
 
@@ -28,3 +29,14 @@ class NewPassword(forms.Form):
     old_password = forms.CharField(max_length=200, widget=forms.PasswordInput)
     new_password = forms.CharField(max_length=200, widget=forms.PasswordInput)
     comf_password = forms.CharField(max_length=200, widget=forms.PasswordInput)
+
+class EdUser(forms.ModelForm):
+    class Mata:
+        model = Post
+
+
+class ProfileImgForm(forms.ModelForm):
+    class Mata:
+        model = ProfileImg
+        fields = "__all__" # will render every fields that in models
+        exclude = ['title'] # any fields name in the list will not ber render

@@ -55,7 +55,7 @@
 
             <ul class="nav navbar-nav">
                 <li class="nav-item" role="presentation"></li>
-                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><img src="{{s.image.url}}" style="height: 49px; width: 49px; border-radius: 50%;"> </a>
+                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><img src="{{user.profileimg.image.url}}" style="height: 49px; width: 49px; border-radius: 50%;"> </a>
                     <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="{% url 'user_profile' %}">Profile</a><a class="dropdown-item" role="presentation" href="">Order Services</a><a class="dropdown-item" role="presentation" href="{% url 'sing_out' %}">Log out</a></div>
                 </li>
             </ul>

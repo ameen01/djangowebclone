@@ -1,12 +1,22 @@
 from datetime import datetime
 from django import forms
+from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Post ,ProfileImg
 
+#
+class PostForm(forms.ModelForm):
+    class meta:
+        model = Post
+        fields = ['caption','image']
+       
+
+
 
 
 #user forms that extend the user model filed
+YEARS= [x for x in range(1940,2023)]
 class UserForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,7 +29,14 @@ class UserForm(forms.Form):
     email = forms.EmailField(max_length=200, widget=forms.EmailInput(attrs={'placeholder':'Email',}))
     password = forms.CharField(max_length=200, widget=forms.PasswordInput(attrs={'placeholder':'Passwrod',}))
     password2 = forms.CharField(label='password',max_length=200, widget=forms.PasswordInput(attrs={'placeholder':'Conform Passwrod',}))
-    age= forms.DateField(label='date of birth',widget=forms.DateInput(attrs={'tybe':'date','max': datetime.now().date()}))
+    # age= forms.DateField(label='date of birth',widget=forms.SelectDateWidget(years=YEARS))
+
+#log the user in
+class UserIN(forms.Form):
+    username = forms.CharField(max_length=100,)
+    password = forms.CharField(max_length=200, widget=forms.PasswordInput(attrs={'placeholder':'Passwrod',}))
+
+
 
 
 # reaset password

@@ -11,10 +11,10 @@ import uuid
 #--------------------USER PORFILE --------------------------!
 # if user careate this filed will create automatic
 class ProfileImg(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE ,related_name='profileimg')
     image = models.ImageField(upload_to ='profiles',null=False, blank=True, default= 'avatar.png')
     age = models.DateTimeField(auto_now_add=True)
-    contory = models.CharField(max_length=100)
+    contory = models.CharField(max_length=100, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -32,28 +32,28 @@ def create_profile(sender, instance, created, **kwargs):
 
 #post that need for posting
 class Post(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='posts')
+    post_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,related_name='post_user')
+    image = models.ImageField(upload_to='posts',null=False, blank=True, default= 'avatar.png')
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
     how_many_likes = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.user
+    def __int__(self):
+        return self.post_id
 
 
 class FamilyPost(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    slag = models.SlugField(max_length=300)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='posts')
+    image = models.ImageField(upload_to='famliyposts',null=False, blank=True, default= 'avatar.png')
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
 
 class FrindsPost(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    slag = models.SlugField(max_length=300)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='posts')
+    image = models.ImageField(upload_to='frindsposts',null=False, blank=True, default= 'avatar.png')
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
 

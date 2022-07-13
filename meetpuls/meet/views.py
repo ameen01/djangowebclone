@@ -4,29 +4,17 @@ from django.contrib.auth import login, logout ,authenticate
 from django.contrib.auth.decorators import login_required
 from .models import ProfileImg, Post
 from django.contrib import messages 
-from .forms import UserForm, NewPassword
+from .forms import UserForm, NewPassword, UserIN, PostForm
 
 
-
-#test userform model
-def regas(request):
-    forms = UserForm
-
-    return render(request, 'gelarey.html',)
 
 @login_required(login_url='log_in')
-def post(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            text = request.POST['text']
-            pic = request.FILES.get('file')
-            user = request.user
-            print(text, f'--------{user}---------',pic)
+def index(request):
+   
             # now_post = Post.objects.create()
 
 
-    return render(request, 'po.html')
-
+    return render(request, 'all.html')
 
 
 # Create your views here.
@@ -35,7 +23,34 @@ def home(request):
 
 
 
-    return render(request, 'gelarey.html',{'posts':posts} )
+    return render(request, 'all.html',{'posts':posts} )
+
+
+
+# find  way to not dispaly avatar in the post if the image no fond
+def Posting(request):
+    image = ProfileImg.objects.reverse
+    print(image ,"1111")
+    blogs = Post.objects.reverse
+    posts= Post.objects.all()
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            text = request.POST['text']
+            post_img = request.FILES.get('post_img')
+            user = request.user
+            if post_img is not None:
+                new_post = Post.objects.create(user=user,caption=text,image=post_img)
+                new_post.save()
+            else:
+                new_post = Post.objects.create(user=user,caption=text)
+                new_post.save()
+        user =request.user
+        blogs= Post.objects.order_by()
+        blogs= Post.objects.filter(user=user).reverse()
+        image= ProfileImg.objects.get(user=user)
+    return render(request, 'home.html',{'image':image, 'blogs':blogs})
+
+
 
 # edit the post
 def edid_post(request,pots_uu):
@@ -60,16 +75,22 @@ def edid_post(request,pots_uu):
 
 #channge the password
 #look how to use the models form
+# lock how to dispaly the erro messg to user
 def new_pwd(request):
     forms = NewPassword()
     if request.method == 'POST':
-        pwdform = NewPassword(request.POST)
-        print(pwdform)
-        if request.POST['new_password'] == request.POST['comf_password']:
-            if pwdform.is_valid():
-                user = User.objects.get(pwdform.username.clean)
-                user.set_password(pwdform.new_password.clean)
-                user.save()
+        pwdform  = NewPassword(request.POST)
+        username = pwdform.cleaned_data.get('username')
+        pwd      = pwdform.cleaned_data.get('password')
+        pwd2     = pwdform.cleaned_data.get('password2')
+        if pwdform.is_valid():
+            if User.objects.filter(username=username).exists():
+                if pwd == pwd2:
+                    user = User.objects.get(username)
+                    user.set_password(pwd)
+                    user.save()
+                    messages.success(request,'password chande success')
+                    return redirect('home')
         #     else:
         #         messages.info(request, 'user not exited')
         #         return redirect(new_pwd)
@@ -94,55 +115,59 @@ def upfile(request):
 
 
 
-#replace the form the model form filed for more scritey 
+# test the user and make the html file more user frindly
+# lock how to dispaly the erro msg to user
 
 def sign_up(request):
+    form = UserForm
     if request.method == 'POST':
-        username  = request.POST['username']
-        email     = request.POST['email']
-        f_name    = request.POST['f_name']
-        l_name    = request.POST['l_name']
-        pwd       = request.POST['password']
-        pwd2      = request.POST['repassword']
-        "fix the location of the passowrd"
-        
-        if User.objects.filter(username=username).exists():
-            messages.info(request,'usernmae is in use')
-            return redirect('regsitor')
-        if User.objects.filter(email=email).exists():
-            messages.info(request,'email in use')
-            return redirect('regsitor')
-        if pwd ==pwd2:
-            new_user = User.objects.create_user(username=username,email=email, password=pwd, first_name=f_name,last_name=l_name)
-            new_user.save()
-            user_model = User.objects.get(username=username)
-            # default_pro = ProfileImg.objects.create(user_pic=user_model)
-            # default_pro.save()
-            login(request, new_user)
-            messages.info(request,'user creatred')
-            return redirect('home')
-        else:
-            messages.info(request,'password not match')
-        return redirect('regsitor')
-    return render(request ,'regsitor_old.html')        
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username  = form.cleaned_data.get('username')
+            email     = form.cleaned_data.get('email')
+            f_name    = form.cleaned_data.get('first_name')
+            l_name    = form.cleaned_data.get('last_name')
+            pwd       = form.cleaned_data.get('password')
+            pwd2      = form.cleaned_data.get('password2')
 
-#replace the form the model form filed for more scritey 
+            if User.objects.filter(username=username).exists():
+                messages.error(request,'user is in use')
+                return redirect('regsitor')
+            if User.objects.filter(email=email).exists():
+                messages.error(request,'email is in use')
+                return redirect('regsitor')
+            if pwd == pwd2:
+                new_user = User.objects.create_user(email=email, username=username,
+                password=pwd, first_name=f_name, last_name=l_name)
+                new_user.save()
+                messages.success(request,f'welcome {username}')
+                login(request ,new_user)
+                return redirect('/')
+            else:
+                messages.error(request,'passowrd not match')
+                return redirect('regsitor')    
+    return render(request ,'regsitor.html', {'form':form})        
+
+
+# lock how to dispaly the erro msg to user
 def  log_in(request):
+    form = UserIN()
     if request.method == 'POST':
-        username = request.POST['username']
-        pwd = request.POST['password']
-        me   = User.objects.get(username=username)
-        user= authenticate(request, username=username ,password=pwd)
-        if user is not None:
-            login(request, user)
-            messages.info(request,' welacome back')
-            return redirect('home')
-        else:
-            messages.info(request, 'username or password are wrong')
-            return redirect('singin')
+        form = UserIN(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            pwd = form.cleaned_data.get('password')
+            if User.objects.filter(username=username).exists():
+                user= authenticate(request, username=username ,password=pwd)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request,' welacome back')
+                    return redirect('home')
+            else:
+                messages.error(request, 'username or password are wrong')
+                return redirect('singin')
 
-    return render(request, 'singin.html')
-
+    return render(request, 'singin.html',{'form':form})
 
 
 @login_required(login_url='sign_in')
